@@ -6,10 +6,10 @@ import (
 )
 
 type Config struct {
-	Laps        uint   `json:"laps"`
-	LapLen      uint   `json:"lapLen"`
-	PenaltyLen  uint   `json:"penaltyLen"`
-	FiringLines uint   `json:"firingLines"`
+	Laps        int    `json:"laps"`
+	LapLen      int    `json:"lapLen"`
+	PenaltyLen  int    `json:"penaltyLen"`
+	FiringLines int    `json:"firingLines"`
 	Start       string `json:"start"`
 	StartDelta  string `json:"startDelta"`
 }
