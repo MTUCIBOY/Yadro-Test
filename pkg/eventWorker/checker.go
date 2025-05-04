@@ -17,7 +17,8 @@ func checkDeltaTime(startTime time.Duration, delta time.Duration) bool {
 }
 
 func checkActualTime(scheduledStartTime, actualStartTime time.Duration) bool {
-	return actualStartTime >= scheduledStartTime
+	return actualStartTime >= scheduledStartTime &&
+		actualStartTime <= scheduledStartTime+time.Minute+30*time.Second
 }
 
 func checkStartTime(actualTime, startTime time.Duration) bool {

@@ -103,14 +103,17 @@ func compIsStart(cm map[string]*competotor, _ *config.Config, eventTime, compID,
 
 	actualStartTimeDuration := parseDuration(eventTime)
 
+	comp.actualStartTime = actualStartTimeDuration
+	comp.ml = append(comp.ml, mainLap{comp.scheduledStartTime, 0})
+
 	// Проверка начал ли участник в положенное время.
 	if !checkActualTime(comp.scheduledStartTime, actualStartTimeDuration) {
+		comp.laps = -1
+
 		return fmt.Sprintf("%s The competitor(%s) is disqualified", eventTime, compID)
 	}
 
-	comp.actualStartTime = actualStartTimeDuration
 	comp.mark = "NotFinished"
-	comp.ml = append(comp.ml, mainLap{comp.scheduledStartTime, 0})
 
 	return fmt.Sprintf("%s The competitor(%s) has started", eventTime, compID)
 }
@@ -202,7 +205,10 @@ func compEndMainLap(cm map[string]*competotor, cfg *config.Config, eventTime, co
 }
 
 // compCantContinue Участник не может продолжить соревнование.
-func compCantContinue(_ map[string]*competotor, _ *config.Config, eventTime, compID, comment string) string {
+func compCantContinue(cm map[string]*competotor, _ *config.Config, eventTime, compID, comment string) string {
+	comp := cm[compID]
+	comp.laps = -1
+
 	return fmt.Sprintf(
 		"%s The competitor(%s) can`t continue: %s",
 		eventTime, compID, comment,
